@@ -39,6 +39,7 @@
 #include "Params.h"
 #define EXTERN
 #include "globals.h"
+#include "psi4/libpsi4util/process.h"
 #include "psi4/libpsi4util/PsiOutStream.h"
 namespace psi {
 namespace cctriples {
@@ -71,6 +72,7 @@ double ET_UHF_AAA() {
     double ***WABC, ***WBCA, ***WACB, ***VABC;
     int nijk, mijk;
     FILE *ijkfile;
+    bool ppl(Process::environment.options["PPL"].to_integer() == 1);
 
     nirreps = moinfo.nirreps;
     occpi = moinfo.aoccpi;
@@ -256,6 +258,7 @@ double ET_UHF_AAA() {
                                     ncols = virtpi[Gc];
                                     nlinks = occpi[Gl];
 
+                                    if (! ppl)
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2.matrix[Gil][il][0]), nrows,
                                                 &(Eints.matrix[Gjk][jk][lc]), ncols, 1.0, &(WABC[Gab][0][0]), ncols);
@@ -271,6 +274,7 @@ double ET_UHF_AAA() {
                                     ncols = virtpi[Gc];
                                     nlinks = occpi[Gl];
 
+                                    if (! ppl)
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, 1.0, &(T2.matrix[Gjl][jl][0]), nrows,
                                                 &(Eints.matrix[Gik][ik][lc]), ncols, 1.0, &(WABC[Gab][0][0]), ncols);
@@ -286,6 +290,7 @@ double ET_UHF_AAA() {
                                     ncols = virtpi[Gc];
                                     nlinks = occpi[Gl];
 
+                                    if (! ppl)
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, 1.0, &(T2.matrix[Gkl][kl][0]), nrows,
                                                 &(Eints.matrix[Gji][ji][lc]), ncols, 1.0, &(WABC[Gab][0][0]), ncols);
@@ -377,6 +382,7 @@ double ET_UHF_AAA() {
                                     ncols = virtpi[Ga];
                                     nlinks = occpi[Gl];
 
+                                    if (! ppl)
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2.matrix[Gil][il][0]), nrows,
                                                 &(Eints.matrix[Gjk][jk][la]), ncols, 1.0, &(WBCA[Gbc][0][0]), ncols);
@@ -392,6 +398,7 @@ double ET_UHF_AAA() {
                                     ncols = virtpi[Ga];
                                     nlinks = occpi[Gl];
 
+                                    if (! ppl)
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, 1.0, &(T2.matrix[Gjl][jl][0]), nrows,
                                                 &(Eints.matrix[Gik][ik][la]), ncols, 1.0, &(WBCA[Gbc][0][0]), ncols);
@@ -407,6 +414,7 @@ double ET_UHF_AAA() {
                                     ncols = virtpi[Ga];
                                     nlinks = occpi[Gl];
 
+                                    if (! ppl)
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, 1.0, &(T2.matrix[Gkl][kl][0]), nrows,
                                                 &(Eints.matrix[Gji][ji][la]), ncols, 1.0, &(WBCA[Gbc][0][0]), ncols);
@@ -505,6 +513,7 @@ double ET_UHF_AAA() {
                                     ncols = virtpi[Gb];
                                     nlinks = occpi[Gl];
 
+                                    if (! ppl)
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, 1.0, &(T2.matrix[Gil][il][0]), nrows,
                                                 &(Eints.matrix[Gjk][jk][lb]), ncols, 1.0, &(WACB[Gac][0][0]), ncols);
@@ -520,6 +529,7 @@ double ET_UHF_AAA() {
                                     ncols = virtpi[Gb];
                                     nlinks = occpi[Gl];
 
+                                    if (! ppl)
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2.matrix[Gjl][jl][0]), nrows,
                                                 &(Eints.matrix[Gik][ik][lb]), ncols, 1.0, &(WACB[Gac][0][0]), ncols);
@@ -535,6 +545,7 @@ double ET_UHF_AAA() {
                                     ncols = virtpi[Gb];
                                     nlinks = occpi[Gl];
 
+                                    if (! ppl)
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2.matrix[Gkl][kl][0]), nrows,
                                                 &(Eints.matrix[Gji][ji][lb]), ncols, 1.0, &(WACB[Gac][0][0]), ncols);
@@ -575,6 +586,7 @@ double ET_UHF_AAA() {
                                             ac = Dints.params->colidx[A][C];
 
                                             /* +t_ia * D_jkbc + f_ia * t_jkbc */
+                                            if (! ppl)
                                             if (Gi == Ga && Gjk == Gbc) {
                                                 t_ia = D_jkbc = f_ia = t_jkbc = 0.0;
 
@@ -592,6 +604,7 @@ double ET_UHF_AAA() {
                                             }
 
                                             /* -t_ib * D_jkac - f_ib * t_jkac */
+                                            if (! ppl)
                                             if (Gi == Gb && Gjk == Gac) {
                                                 t_ib = D_jkac = f_ib = t_jkac = 0.0;
 
@@ -609,6 +622,7 @@ double ET_UHF_AAA() {
                                             }
 
                                             /* +t_ic * D_jkab + f_ic * t_jkba */
+                                            if (! ppl)
                                             if (Gi == Gc && Gjk == Gab) {
                                                 t_ic = D_jkba = f_ic = t_jkba = 0.0;
 
@@ -626,6 +640,7 @@ double ET_UHF_AAA() {
                                             }
 
                                             /* -t_ja * D_ikbc - f_ja * t_ikbc*/
+                                            if (! ppl)
                                             if (Gj == Ga && Gik == Gbc) {
                                                 t_ja = D_ikbc = f_ja = t_ikbc = 0.0;
 
@@ -643,6 +658,7 @@ double ET_UHF_AAA() {
                                             }
 
                                             /* +t_jb * D_ikac + f_jb * t_ikac */
+                                            if (! ppl)
                                             if (Gj == Gb && Gik == Gac) {
                                                 t_jb = D_ikac = f_jb = t_ikac = 0.0;
 
@@ -660,6 +676,7 @@ double ET_UHF_AAA() {
                                             }
 
                                             /* -t_jc * D_ikba - f_jc * t_ikba */
+                                            if (! ppl)
                                             if (Gj == Gc && Gik == Gab) {
                                                 t_jc = D_ikba = f_jc = t_ikba = 0.0;
 
@@ -677,6 +694,7 @@ double ET_UHF_AAA() {
                                             }
 
                                             /* -t_ka * D_jibc - f_ka * t_jibc */
+                                            if (! ppl)
                                             if (Gk == Ga && Gji == Gbc) {
                                                 t_ka = D_jibc = f_ka = t_jibc = 0.0;
 
@@ -694,6 +712,7 @@ double ET_UHF_AAA() {
                                             }
 
                                             /* +t_kb * D_jiac + f_kb * t_jiac */
+                                            if (! ppl)
                                             if (Gk == Gb && Gji == Gac) {
                                                 t_kb = D_jiac = f_kb = t_jiac = 0.0;
 
@@ -711,6 +730,7 @@ double ET_UHF_AAA() {
                                             }
 
                                             /* -t_kc * D_jiab - f_kc * t_jiba*/
+                                            if (! ppl)
                                             if (Gk == Gc && Gji == Gab) {
                                                 t_kc = D_jiba = f_kc = t_jiba = 0.0;
 

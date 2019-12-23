@@ -104,6 +104,7 @@ PsiReturnType cctriples(std::shared_ptr<Wavefunction> reference_wavefunction, Op
     FILE *efile;
     int i, errcod, natom;
     char *keyw = nullptr;
+    auto ppl(Process::environment.options["PPL"].to_integer() == 1);
 
     init_io();
     title();
@@ -144,7 +145,9 @@ PsiReturnType cctriples(std::shared_ptr<Wavefunction> reference_wavefunction, Op
 
         if (params.wfn == "CCSD_T" || params.wfn == "BCCD_T") {
             ET = ET_RHF();
-            outfile->Printf("    (T) energy                                = %20.15f\n", ET);
+            outfile->Printf(
+              "    (T) energy %s                          "
+              "= %20.15f\n", ppl ? "(ppl)" : "     ", ET);
             outfile->Printf("      * CCSD(T) total energy                  = %20.15f\n", ET + moinfo.ecc + moinfo.eref);
 
             Process::environment.globals["(T) CORRECTION ENERGY"] = ET;
@@ -192,16 +195,24 @@ PsiReturnType cctriples(std::shared_ptr<Wavefunction> reference_wavefunction, Op
 
         if (params.dertype == 0) {
             ETAAA = ET_UHF_AAA();
-            outfile->Printf("    AAA (T) energy                             = %20.15f\n", ETAAA);
+            outfile->Printf(
+              "    AAA (T) energy %s                       = %20.15f\n",
+              ppl ? "(ppl)" : "     ", ETAAA);
 
             ETBBB = ET_UHF_BBB();
-            outfile->Printf("    BBB (T) energy                             = %20.15f\n", ETBBB);
+            outfile->Printf(
+              "    BBB (T) energy %s                       = %20.15f\n",
+              ppl ? "(ppl)" : "     ", ETBBB);
 
             ETAAB = ET_UHF_AAB();
-            outfile->Printf("    AAB (T) energy                             = %20.15f\n", ETAAB);
+            outfile->Printf(
+              "    AAB (T) energy %s                       = %20.15f\n",
+              ppl ? "(ppl)" : "     ", ETAAB);
 
             ETABB = ET_UHF_ABB();
-            outfile->Printf("    ABB (T) energy                             = %20.15f\n", ETABB);
+            outfile->Printf(
+              "    ABB (T) energy %s                       = %20.15f\n",
+              ppl ? "(ppl)" : "     ", ETABB);
 
         } else if (params.dertype == 1) {
             transpose_integrals();
@@ -221,7 +232,10 @@ PsiReturnType cctriples(std::shared_ptr<Wavefunction> reference_wavefunction, Op
         }
 
         ET = ETAAA + ETAAB + ETABB + ETBBB;
-        outfile->Printf("    (T) energy                                   = %20.15f\n", ET);
+        //outfile->Printf("    (T) energy                                   = %20.15f\n", ET);
+        outfile->Printf(
+          "    (T) energy %s                          "
+          "= %20.15f\n", ppl ? "(ppl)" : "     ", ET);
         outfile->Printf("      * CCSD(T) total energy                     = %20.15f\n", ET + moinfo.ecc + moinfo.eref);
 
         Process::environment.globals["AAA (T) CORRECTION ENERGY"] = ETAAA;
