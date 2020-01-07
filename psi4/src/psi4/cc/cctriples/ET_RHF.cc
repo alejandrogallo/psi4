@@ -306,7 +306,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
     dpdbuf4 *T2, *Eints, *Dints, *Fints;
     dpdfile2 *fIJ, *fAB, *fIA, *T1;
     int nijk, nthreads, first_ijk, last_ijk, thr_id;
-    bool ppl(Process::environment.options["PPL"].to_integer() == 1);
+    std::string ppl(Process::environment.options["PPL"].to_string());
 
     nirreps = moinfo.nirreps;
     occpi = moinfo.occpi;
@@ -396,6 +396,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                         ncols = virtpi[Gc];
                         nlinks = virtpi[Gd];
 
+                        if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                         if (nrows && ncols && nlinks)
                             C_DGEMM('t', 't', nrows, ncols, nlinks, 1.0, &(Fints->matrix[Gid][0][0]), nrows,
                                     &(T2->matrix[Gkj][kj][cd]), nlinks, 0.0, &(W0[Gab][0][0]), ncols);
@@ -419,7 +420,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                         ncols = virtpi[Gc];
                         nlinks = occpi[Gl];
 
-                        if (! ppl)
+                        if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                         if (nrows && ncols && nlinks)
                             C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2->matrix[Gil][il][0]), nrows,
                                     &(Eints->matrix[Gjk][jk][lc]), ncols, 1.0, &(W0[Gab][0][0]), ncols);
@@ -445,6 +446,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                         ncols = virtpi[Gb];
                         nlinks = virtpi[Gd];
 
+                        if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                         if (nrows && ncols && nlinks)
                             C_DGEMM('t', 't', nrows, ncols, nlinks, 1.0, &(Fints->matrix[Gid][0][0]), nrows,
                                     &(T2->matrix[Gjk][jk][bd]), nlinks, 1.0, &(W1[Gac][0][0]), ncols);
@@ -465,7 +467,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                         ncols = virtpi[Gb];
                         nlinks = occpi[Gl];
 
-                        if (! ppl)
+                        if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                         if (nrows && ncols && nlinks)
                             C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2->matrix[Gil][il][0]), nrows,
                                     &(Eints->matrix[Gkj][kj][lb]), ncols, 1.0, &(W1[Gac][0][0]), ncols);
@@ -491,6 +493,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                         ncols = virtpi[Gb];
                         nlinks = virtpi[Gd];
 
+                        if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                         if (nrows && ncols && nlinks)
                             C_DGEMM('t', 't', nrows, ncols, nlinks, 1.0, &(Fints->matrix[Gkd][0][0]), nrows,
                                     &(T2->matrix[Gji][ji][bd]), nlinks, 1.0, &(W0[Gca][0][0]), ncols);
@@ -511,7 +514,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                         ncols = virtpi[Gb];
                         nlinks = occpi[Gl];
 
-                        if (! ppl)
+                        if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                         if (nrows && ncols && nlinks)
                             C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2->matrix[Gkl][kl][0]), nrows,
                                     &(Eints->matrix[Gij][ij][lb]), ncols, 1.0, &(W0[Gca][0][0]), ncols);
@@ -537,6 +540,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                         ncols = virtpi[Ga];
                         nlinks = virtpi[Gd];
 
+                        if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                         if (nrows && ncols && nlinks)
                             C_DGEMM('t', 't', nrows, ncols, nlinks, 1.0, &(Fints->matrix[Gkd][0][0]), nrows,
                                     &(T2->matrix[Gij][ij][ad]), nlinks, 1.0, &(W1[Gcb][0][0]), ncols);
@@ -557,7 +561,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                         ncols = virtpi[Ga];
                         nlinks = occpi[Gl];
 
-                        if (! ppl)
+                        if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                         if (nrows && ncols && nlinks)
                             C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2->matrix[Gkl][kl][0]), nrows,
                                     &(Eints->matrix[Gji][ji][la]), ncols, 1.0, &(W1[Gcb][0][0]), ncols);
@@ -583,6 +587,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                         ncols = virtpi[Ga];
                         nlinks = virtpi[Gd];
 
+                        if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                         if (nrows && ncols && nlinks)
                             C_DGEMM('t', 't', nrows, ncols, nlinks, 1.0, &(Fints->matrix[Gjd][0][0]), nrows,
                                     &(T2->matrix[Gik][ik][ad]), nlinks, 1.0, &(W0[Gbc][0][0]), ncols);
@@ -603,7 +608,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                         ncols = virtpi[Ga];
                         nlinks = occpi[Gl];
 
-                        if (! ppl)
+                        if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                         if (nrows && ncols && nlinks)
                             C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2->matrix[Gjl][jl][0]), nrows,
                                     &(Eints->matrix[Gki][ki][la]), ncols, 1.0, &(W0[Gbc][0][0]), ncols);
@@ -629,6 +634,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                         ncols = virtpi[Gc];
                         nlinks = virtpi[Gd];
 
+                        if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                         if (nrows && ncols && nlinks)
                             C_DGEMM('t', 't', nrows, ncols, nlinks, 1.0, &(Fints->matrix[Gjd][0][0]), nrows,
                                     &(T2->matrix[Gki][ki][cd]), nlinks, 1.0, &(W1[Gba][0][0]), ncols);
@@ -649,7 +655,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                         ncols = virtpi[Gc];
                         nlinks = occpi[Gl];
 
-                        if (! ppl)
+                        if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                         if (nrows && ncols && nlinks)
                             C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2->matrix[Gjl][jl][0]), nrows,
                                     &(Eints->matrix[Gik][ik][lc]), ncols, 1.0, &(W1[Gba][0][0]), ncols);
@@ -707,7 +713,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                                 ac = Dints->params->colidx[A][C];
 
                                 /* +t_ia * D_jkbc + f_ia * t_jkbc */
-                                if (! ppl)
+                                if (ppl == "FALSE")
                                 if (Gi == Ga && Gjk == Gbc) {
                                     t_ia = D_jkbc = 0.0;
 
@@ -725,7 +731,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                                 }
 
                                 /* +t_jb * D_ikac */
-                                if (! ppl)
+                                if (ppl == "FALSE")
                                 if (Gj == Gb && Gik == Gac) {
                                     t_jb = D_ikac = 0.0;
 
@@ -743,7 +749,7 @@ void ET_RHF_thread(ET_RHF_thread_data *data) {
                                 }
 
                                 /* +t_kc * D_ijab */
-                                if (! ppl)
+                                if (ppl == "FALSE")
                                 if (Gk == Gc && Gij == Gab) {
                                     t_kc = D_ijab = 0.0;
 

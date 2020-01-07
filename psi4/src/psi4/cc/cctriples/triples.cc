@@ -104,7 +104,7 @@ PsiReturnType cctriples(std::shared_ptr<Wavefunction> reference_wavefunction, Op
     FILE *efile;
     int i, errcod, natom;
     char *keyw = nullptr;
-    auto ppl(Process::environment.options["PPL"].to_integer() == 1);
+    std::string ppl(Process::environment.options["PPL"].to_string());
 
     init_io();
     title();
@@ -147,7 +147,7 @@ PsiReturnType cctriples(std::shared_ptr<Wavefunction> reference_wavefunction, Op
             ET = ET_RHF();
             outfile->Printf(
               "    (T) energy %s                          "
-              "= %20.15f\n", ppl ? "(ppl)" : "     ", ET);
+              "= %20.15f\n", ppl.c_str(), ET);
             outfile->Printf("      * CCSD(T) total energy                  = %20.15f\n", ET + moinfo.ecc + moinfo.eref);
 
             Process::environment.globals["(T) CORRECTION ENERGY"] = ET;
@@ -197,22 +197,22 @@ PsiReturnType cctriples(std::shared_ptr<Wavefunction> reference_wavefunction, Op
             ETAAA = ET_UHF_AAA();
             outfile->Printf(
               "    AAA (T) energy %s                       = %20.15f\n",
-              ppl ? "(ppl)" : "     ", ETAAA);
+              ppl.c_str(), ETAAA);
 
             ETBBB = ET_UHF_BBB();
             outfile->Printf(
               "    BBB (T) energy %s                       = %20.15f\n",
-              ppl ? "(ppl)" : "     ", ETBBB);
+              ppl.c_str(), ETBBB);
 
             ETAAB = ET_UHF_AAB();
             outfile->Printf(
               "    AAB (T) energy %s                       = %20.15f\n",
-              ppl ? "(ppl)" : "     ", ETAAB);
+              ppl.c_str(), ETAAB);
 
             ETABB = ET_UHF_ABB();
             outfile->Printf(
               "    ABB (T) energy %s                       = %20.15f\n",
-              ppl ? "(ppl)" : "     ", ETABB);
+              ppl.c_str(), ETABB);
 
         } else if (params.dertype == 1) {
             transpose_integrals();
@@ -235,7 +235,7 @@ PsiReturnType cctriples(std::shared_ptr<Wavefunction> reference_wavefunction, Op
         //outfile->Printf("    (T) energy                                   = %20.15f\n", ET);
         outfile->Printf(
           "    (T) energy %s                          "
-          "= %20.15f\n", ppl ? "(ppl)" : "     ", ET);
+          "= %20.15f\n", ppl.c_str(), ET);
         outfile->Printf("      * CCSD(T) total energy                     = %20.15f\n", ET + moinfo.ecc + moinfo.eref);
 
         Process::environment.globals["AAA (T) CORRECTION ENERGY"] = ETAAA;

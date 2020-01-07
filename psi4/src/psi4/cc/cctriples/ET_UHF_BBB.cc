@@ -71,7 +71,7 @@ double ET_UHF_BBB() {
     dpdfile2 fIJ, fAB, fIA, T1;
     double ***WABC, ***WBCA, ***WACB, ***VABC;
     int nijk, mijk;
-    bool ppl(Process::environment.options["PPL"].to_integer() == 1);
+    std::string ppl(Process::environment.options["PPL"].to_string());
 
     nirreps = moinfo.nirreps;
     occpi = moinfo.boccpi;
@@ -193,6 +193,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Gc];
                                     nlinks = virtpi[Gd];
 
+                                    if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 't', nrows, ncols, nlinks, -1.0, &(Fints.matrix[Gid][0][0]), nrows,
                                                 &(T2.matrix[Gjk][jk][cd]), nlinks, 1.0, &(WABC[Gab][0][0]), ncols);
@@ -215,6 +216,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Gc];
                                     nlinks = virtpi[Gd];
 
+                                    if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 't', nrows, ncols, nlinks, 1.0, &(Fints.matrix[Gjd][0][0]), nrows,
                                                 &(T2.matrix[Gik][ik][cd]), nlinks, 1.0, &(WABC[Gab][0][0]), ncols);
@@ -237,6 +239,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Gc];
                                     nlinks = virtpi[Gd];
 
+                                    if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 't', nrows, ncols, nlinks, 1.0, &(Fints.matrix[Gkd][0][0]), nrows,
                                                 &(T2.matrix[Gji][ji][cd]), nlinks, 1.0, &(WABC[Gab][0][0]), ncols);
@@ -257,7 +260,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Gc];
                                     nlinks = occpi[Gl];
 
-                                    if (! ppl)
+                                    if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2.matrix[Gil][il][0]), nrows,
                                                 &(Eints.matrix[Gjk][jk][lc]), ncols, 1.0, &(WABC[Gab][0][0]), ncols);
@@ -273,7 +276,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Gc];
                                     nlinks = occpi[Gl];
 
-                                    if (! ppl)
+                                    if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, 1.0, &(T2.matrix[Gjl][jl][0]), nrows,
                                                 &(Eints.matrix[Gik][ik][lc]), ncols, 1.0, &(WABC[Gab][0][0]), ncols);
@@ -289,7 +292,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Gc];
                                     nlinks = occpi[Gl];
 
-                                    if (! ppl)
+                                    if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, 1.0, &(T2.matrix[Gkl][kl][0]), nrows,
                                                 &(Eints.matrix[Gji][ji][lc]), ncols, 1.0, &(WABC[Gab][0][0]), ncols);
@@ -317,6 +320,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Ga];
                                     nlinks = virtpi[Gd];
 
+                                    if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 't', nrows, ncols, nlinks, -1.0, &(Fints.matrix[Gid][0][0]), nrows,
                                                 &(T2.matrix[Gjk][jk][ad]), nlinks, 1.0, &(WBCA[Gbc][0][0]), ncols);
@@ -339,6 +343,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Ga];
                                     nlinks = virtpi[Gd];
 
+                                    if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 't', nrows, ncols, nlinks, 1.0, &(Fints.matrix[Gjd][0][0]), nrows,
                                                 &(T2.matrix[Gik][ik][ad]), nlinks, 1.0, &(WBCA[Gbc][0][0]), ncols);
@@ -361,6 +366,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Ga];
                                     nlinks = virtpi[Gd];
 
+                                    if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 't', nrows, ncols, nlinks, 1.0, &(Fints.matrix[Gkd][0][0]), nrows,
                                                 &(T2.matrix[Gji][ji][ad]), nlinks, 1.0, &(WBCA[Gbc][0][0]), ncols);
@@ -369,7 +375,6 @@ double ET_UHF_BBB() {
                                                                 Fints.params->coltot[Gkd]);
                                 }
 
-                                if (! ppl)
                                 for (Gl = 0; Gl < nirreps; Gl++) {
                                     /* -t_ilbc * E_jkla */
                                     Gbc = Gil = Gi ^ Gl;
@@ -382,7 +387,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Ga];
                                     nlinks = occpi[Gl];
 
-                                    if (! ppl)
+                                    if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2.matrix[Gil][il][0]), nrows,
                                                 &(Eints.matrix[Gjk][jk][la]), ncols, 1.0, &(WBCA[Gbc][0][0]), ncols);
@@ -398,7 +403,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Ga];
                                     nlinks = occpi[Gl];
 
-                                    if (! ppl)
+                                    if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, 1.0, &(T2.matrix[Gjl][jl][0]), nrows,
                                                 &(Eints.matrix[Gik][ik][la]), ncols, 1.0, &(WBCA[Gbc][0][0]), ncols);
@@ -414,7 +419,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Ga];
                                     nlinks = occpi[Gl];
 
-                                    if (! ppl)
+                                    if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, 1.0, &(T2.matrix[Gkl][kl][0]), nrows,
                                                 &(Eints.matrix[Gji][ji][la]), ncols, 1.0, &(WBCA[Gbc][0][0]), ncols);
@@ -449,6 +454,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Gb];
                                     nlinks = virtpi[Gd];
 
+                                    if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 't', nrows, ncols, nlinks, 1.0, &(Fints.matrix[Gid][0][0]), nrows,
                                                 &(T2.matrix[Gjk][jk][bd]), nlinks, 1.0, &(WACB[Gac][0][0]), ncols);
@@ -471,6 +477,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Gb];
                                     nlinks = virtpi[Gd];
 
+                                    if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 't', nrows, ncols, nlinks, -1.0, &(Fints.matrix[Gjd][0][0]), nrows,
                                                 &(T2.matrix[Gik][ik][bd]), nlinks, 1.0, &(WACB[Gac][0][0]), ncols);
@@ -493,6 +500,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Gb];
                                     nlinks = virtpi[Gd];
 
+                                    if (ppl == "SH" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 't', nrows, ncols, nlinks, -1.0, &(Fints.matrix[Gkd][0][0]), nrows,
                                                 &(T2.matrix[Gji][ji][bd]), nlinks, 1.0, &(WACB[Gac][0][0]), ncols);
@@ -513,7 +521,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Gb];
                                     nlinks = occpi[Gl];
 
-                                    if (! ppl)
+                                    if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, 1.0, &(T2.matrix[Gil][il][0]), nrows,
                                                 &(Eints.matrix[Gjk][jk][lb]), ncols, 1.0, &(WACB[Gac][0][0]), ncols);
@@ -529,7 +537,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Gb];
                                     nlinks = occpi[Gl];
 
-                                    if (! ppl)
+                                    if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2.matrix[Gjl][jl][0]), nrows,
                                                 &(Eints.matrix[Gik][ik][lb]), ncols, 1.0, &(WACB[Gac][0][0]), ncols);
@@ -545,7 +553,7 @@ double ET_UHF_BBB() {
                                     ncols = virtpi[Gb];
                                     nlinks = occpi[Gl];
 
-                                    if (! ppl)
+                                    if (ppl == "SP" || ppl == "S" || ppl == "FALSE")
                                     if (nrows && ncols && nlinks)
                                         C_DGEMM('t', 'n', nrows, ncols, nlinks, -1.0, &(T2.matrix[Gkl][kl][0]), nrows,
                                                 &(Eints.matrix[Gji][ji][lb]), ncols, 1.0, &(WACB[Gac][0][0]), ncols);
@@ -586,7 +594,7 @@ double ET_UHF_BBB() {
                                             ac = Dints.params->colidx[A][C];
 
                                             /* +t_ia * D_jkbc + f_ia * t_jkbc */
-                                            if (! ppl)
+                                            if (ppl == "FALSE")
                                             if (Gi == Ga && Gjk == Gbc) {
                                                 t_ia = D_jkbc = f_ia = t_jkbc = 0.0;
 
@@ -604,7 +612,7 @@ double ET_UHF_BBB() {
                                             }
 
                                             /* -t_ib * D_jkac - f_ib * t_jkac */
-                                            if (! ppl)
+                                            if (ppl == "FALSE")
                                             if (Gi == Gb && Gjk == Gac) {
                                                 t_ib = D_jkac = f_ib = t_jkac = 0.0;
 
@@ -622,7 +630,7 @@ double ET_UHF_BBB() {
                                             }
 
                                             /* +t_ic * D_jkab + f_ic * t_jkba */
-                                            if (! ppl)
+                                            if (ppl == "FALSE")
                                             if (Gi == Gc && Gjk == Gab) {
                                                 t_ic = D_jkba = f_ic = t_jkba = 0.0;
 
@@ -640,7 +648,7 @@ double ET_UHF_BBB() {
                                             }
 
                                             /* -t_ja * D_ikbc - f_ja * t_ikbc*/
-                                            if (! ppl)
+                                            if (ppl == "FALSE")
                                             if (Gj == Ga && Gik == Gbc) {
                                                 t_ja = D_ikbc = f_ja = t_ikbc = 0.0;
 
@@ -658,7 +666,7 @@ double ET_UHF_BBB() {
                                             }
 
                                             /* +t_jb * D_ikac + f_jb * t_ikac */
-                                            if (! ppl)
+                                            if (ppl == "FALSE")
                                             if (Gj == Gb && Gik == Gac) {
                                                 t_jb = D_ikac = f_jb = t_ikac = 0.0;
 
@@ -676,7 +684,7 @@ double ET_UHF_BBB() {
                                             }
 
                                             /* -t_jc * D_ikba - f_jc * t_ikba */
-                                            if (! ppl)
+                                            if (ppl == "FALSE")
                                             if (Gj == Gc && Gik == Gab) {
                                                 t_jc = D_ikba = f_jc = t_ikba = 0.0;
 
@@ -694,7 +702,7 @@ double ET_UHF_BBB() {
                                             }
 
                                             /* -t_ka * D_jibc - f_ka * t_jibc */
-                                            if (! ppl)
+                                            if (ppl == "FALSE")
                                             if (Gk == Ga && Gji == Gbc) {
                                                 t_ka = D_jibc = f_ka = t_jibc = 0.0;
 
@@ -712,7 +720,7 @@ double ET_UHF_BBB() {
                                             }
 
                                             /* +t_kb * D_jiac + f_kb * t_jiac */
-                                            if (! ppl)
+                                            if (ppl == "FALSE")
                                             if (Gk == Gb && Gji == Gac) {
                                                 t_kb = D_jiac = f_kb = t_jiac = 0.0;
 
@@ -730,7 +738,7 @@ double ET_UHF_BBB() {
                                             }
 
                                             /* -t_kc * D_jiab - f_kc * t_jiba*/
-                                            if (! ppl)
+                                            if (ppl == "FALSE")
                                             if (Gk == Gc && Gji == Gab) {
                                                 t_kc = D_jiba = f_kc = t_jiba = 0.0;
 

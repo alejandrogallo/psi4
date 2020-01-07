@@ -184,7 +184,11 @@ int read_options(const std::string &name, Options &options, bool suppress_printi
     See :ref:`Cross-module Redundancies <table:managedmethods>` for details. -*/
     options.add_str("CC_TYPE", "CONV", "DF CONV CD");
     // Wether or not to use the PPL schema in ccsd(t)
-    options.add_bool("PPL", false);
+    // FALSE = ppl is deactivated
+    // S     = calculate ccsd(t) without singles
+    // SH    = calculate ccsd(t) without singles and hhhp
+    // SP    = calculate ccsd(t) without singles and ppph
+    options.add_str("PPL", "FALSE", "FALSE S SH SP");
     /*- Algorithm to use for CI computation (e.g., CID or CISD).
     See :ref:`Cross-module Redundancies <table:managedmethods>` for details. -*/
     options.add_str("CI_TYPE", "CONV", "CONV");
